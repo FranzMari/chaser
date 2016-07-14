@@ -15,4 +15,4 @@ Run::
     sudo pacman -S chaser
 
 
-.. _Chakra Community Repository: http://chakraos.org/ccr
+.. _Chakra Community Repository: https://chakralinux.org/ccr
