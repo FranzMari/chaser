@@ -33,10 +33,17 @@ def get_source_files(args, workingdir=None):
         os.mkdir(workingdir)
 
     for pkgname in pkgnames:
+        print('Downloading %s' % pkgname)
         r = requests.get(ccr.pkg_url(pkgname))
         r.raise_for_status()
-        tar = tarfile.open(mode='r', fileobj=io.BytesIO(r.content))
-        tar.extractall(workingdir)
+
+        try:
+            tar = tarfile.open(mode='r', fileobj=io.BytesIO(r.content))
+            tar.extractall(workingdir)
+        except tarfile.ReadError as re:
+            print('Unable to open the tar file. Either the package does not '
+                  'exist in CCR or it is malformed: %s' % str(re))
+
 
 def recurse_depends(pkgname, workingdir=None, graph=None):
     """Build a dependency graph"""
